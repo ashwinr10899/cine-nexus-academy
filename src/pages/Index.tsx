@@ -1,17 +1,17 @@
-import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
-import FeaturedContent from '@/components/FeaturedContent';
+import LandingHeader from '@/components/LandingHeader';
+import LandingHero from '@/components/LandingHero';
+import AboutLicon from '@/components/AboutLicon';
+import WhyJoinLicon from '@/components/WhyJoinLicon';
 import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <LandingHeader />
       <main>
-        <HeroSection />
-        <div className="max-w-7xl mx-auto">
-          <FeaturedContent />
-        </div>
+        <LandingHero />
+        <AboutLicon />
+        <WhyJoinLicon />
       </main>
       <Footer />
     </div>
