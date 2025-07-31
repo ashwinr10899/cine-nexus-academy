@@ -1,5 +1,6 @@
 import LandingHeader from '@/components/LandingHeader';
 import LandingHero from '@/components/LandingHero';
+import AuthSection from '@/components/AuthSection';
 import AboutLicon from '@/components/AboutLicon';
 import WhyJoinLicon from '@/components/WhyJoinLicon';
 import Footer from '@/components/Footer';
@@ -10,6 +11,7 @@ const Index = () => {
       <LandingHeader />
       <main>
         <LandingHero />
+        <AuthSection />
         <AboutLicon />
         <WhyJoinLicon />
       </main>
