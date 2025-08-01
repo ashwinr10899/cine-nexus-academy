@@ -1,5 +1,5 @@
 import LandingHeader from '@/components/LandingHeader';
-import LandingHero from '@/components/LandingHero';
+import ParallaxHero from '@/components/ParallaxHero';
 import AuthSection from '@/components/AuthSection';
 import AboutLicon from '@/components/AboutLicon';
 import WhyJoinLicon from '@/components/WhyJoinLicon';
@@ -10,7 +10,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <LandingHeader />
       <main>
-        <LandingHero />
+        <ParallaxHero />
         <AuthSection />
         <AboutLicon />
         <WhyJoinLicon />
