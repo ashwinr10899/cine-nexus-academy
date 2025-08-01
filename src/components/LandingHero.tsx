@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Star, Film, Camera, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-banner.jpg';
 
@@ -19,11 +19,41 @@ const LandingHero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-accent/10" />
       </div>
 
-      {/* Floating Elements */}
+      {/* Enhanced Floating Cinematic Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating film particles */}
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary/30 rounded-full animate-float-slow" />
         <div className="absolute top-3/4 right-1/4 w-3 h-3 bg-accent/40 rounded-full animate-float-slower" />
         <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-primary/50 rounded-full animate-float" />
+        
+        {/* Animated film strips */}
+        <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -rotate-12 opacity-10">
+          <div className="flex gap-1">
+            {[...Array(20)].map((_, i) => (
+              <div key={i} className="w-1 h-8 bg-primary animate-pulse" style={{animationDelay: `${i * 0.1}s`}} />
+            ))}
+          </div>
+        </div>
+        
+        <div className="absolute bottom-1/3 right-0 transform rotate-12 opacity-10">
+          <div className="flex gap-1">
+            {[...Array(15)].map((_, i) => (
+              <div key={i} className="w-1 h-6 bg-accent animate-pulse" style={{animationDelay: `${i * 0.15}s`}} />
+            ))}
+          </div>
+        </div>
+        
+        {/* Orbiting film icons */}
+        <div className="absolute top-1/3 right-1/3 animate-spin-slow">
+          <Film className="h-6 w-6 text-primary/20" />
+        </div>
+        <div className="absolute bottom-1/3 left-1/5 animate-spin-slow" style={{animationDelay: '2s'}}>
+          <Camera className="h-4 w-4 text-accent/20" />
+        </div>
+        
+        {/* Glowing orbs */}
+        <div className="absolute top-1/6 right-1/5 w-32 h-32 bg-primary/5 rounded-full blur-3xl animate-pulse-subtle" />
+        <div className="absolute bottom-1/4 left-1/6 w-24 h-24 bg-accent/5 rounded-full blur-2xl animate-pulse-subtle" style={{animationDelay: '1s'}} />
       </div>
 
       {/* Cinematic Content Container */}
@@ -31,22 +61,42 @@ const LandingHero = () => {
         {/* Film Strip Border Effect */}
         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60"></div>
         
-        {/* Cinematic Badge */}
+        {/* Enhanced Cinematic Badge */}
         <div className="mb-8 animate-fade-in">
           <div className="relative inline-flex items-center">
-            {/* Film reel decorative elements */}
-            <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-3 h-3 border-2 border-primary/30 rounded-full animate-spin-slow"></div>
-            <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 w-3 h-3 border-2 border-primary/30 rounded-full animate-spin-slow"></div>
-            
-            <div className="px-6 py-3 rounded-full bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border border-primary/30 backdrop-blur-md shadow-glow">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <Star className="h-5 w-5 text-primary animate-pulse-subtle" />
-                  <div className="absolute inset-0 h-5 w-5 text-primary animate-ping opacity-30">
-                    <Star className="h-5 w-5" />
+            {/* Enhanced film reel decorative elements */}
+            <div className="absolute -left-12 top-1/2 transform -translate-y-1/2">
+              <div className="relative">
+                <div className="w-6 h-6 border-2 border-primary/40 rounded-full animate-spin-slow">
+                  <div className="absolute inset-1 border border-primary/60 rounded-full">
+                    <div className="absolute inset-1 bg-primary/20 rounded-full animate-pulse-subtle" />
                   </div>
                 </div>
-                <span className="text-primary font-semibold tracking-wide text-sm uppercase">
+                <div className="absolute -inset-2 border border-primary/20 rounded-full animate-ping" />
+              </div>
+            </div>
+            <div className="absolute -right-12 top-1/2 transform -translate-y-1/2">
+              <div className="relative">
+                <div className="w-6 h-6 border-2 border-primary/40 rounded-full animate-spin-slow" style={{animationDelay: '1s'}}>
+                  <div className="absolute inset-1 border border-primary/60 rounded-full">
+                    <div className="absolute inset-1 bg-primary/20 rounded-full animate-pulse-subtle" />
+                  </div>
+                </div>
+                <div className="absolute -inset-2 border border-primary/20 rounded-full animate-ping" style={{animationDelay: '1s'}} />
+              </div>
+            </div>
+            
+            <div className="relative px-8 py-4 rounded-full bg-gradient-to-r from-primary/30 via-primary/15 to-primary/30 border border-primary/40 backdrop-blur-md shadow-glow hover:shadow-glow-lg transition-all duration-500 group">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center gap-4">
+                <div className="relative">
+                  <Star className="h-6 w-6 text-primary animate-pulse-subtle fill-current" />
+                  <div className="absolute inset-0 h-6 w-6 text-primary animate-ping opacity-30">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div className="absolute -inset-1 border border-primary/30 rounded-full animate-spin-slow opacity-50" />
+                </div>
+                <span className="text-primary font-bold tracking-wide text-base uppercase">
                   Trusted by 10K+ Film Enthusiasts
                 </span>
               </div>
@@ -54,18 +104,26 @@ const LandingHero = () => {
           </div>
         </div>
         
-        {/* Cinematic Main Title */}
+        {/* Enhanced Cinematic Main Title */}
         <div className="relative mb-10">
-          {/* Title backdrop effect */}
+          {/* Enhanced title backdrop effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-accent/10 animate-pulse-subtle"></div>
           
           <h1 className="relative text-7xl md:text-9xl font-black text-foreground mb-6 leading-[0.9] tracking-tight animate-scale-in">
-            <span className="block mb-2">Your Ultimate</span>
-            <span className="block bg-gradient-primary bg-clip-text text-transparent animate-shimmer">
+            <span className="block mb-2 animate-fade-in">Your Ultimate</span>
+            <span className="block bg-gradient-primary bg-clip-text text-transparent animate-shimmer relative">
+              <span className="absolute inset-0 bg-gradient-primary bg-clip-text text-transparent blur-sm animate-pulse opacity-50">
+                CINEMATIC
+              </span>
               CINEMATIC
             </span>
-            <span className="block text-5xl md:text-7xl font-light text-muted-foreground/80 tracking-widest">
-              H U B
+            <span className="block text-5xl md:text-7xl font-light text-muted-foreground/80 tracking-widest animate-fade-in-delayed">
+              <span className="inline-block animate-bounce" style={{animationDelay: '0s'}}>H</span>
+              <span className="inline-block animate-bounce" style={{animationDelay: '0.1s'}}>&nbsp;</span>
+              <span className="inline-block animate-bounce" style={{animationDelay: '0.2s'}}>U</span>
+              <span className="inline-block animate-bounce" style={{animationDelay: '0.3s'}}>&nbsp;</span>
+              <span className="inline-block animate-bounce" style={{animationDelay: '0.4s'}}>B</span>
             </span>
           </h1>
           
@@ -99,28 +157,35 @@ const LandingHero = () => {
           </div>
         </div>
 
-        {/* Cinematic Action Buttons */}
+        {/* Enhanced Cinematic Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-20 animate-fade-in-delayed">
           <div className="relative group">
+            <div className="absolute -inset-2 bg-gradient-primary rounded-full blur-lg opacity-20 group-hover:opacity-60 transition-all duration-500 animate-pulse-subtle"></div>
             <div className="absolute -inset-1 bg-gradient-primary rounded-full blur opacity-30 group-hover:opacity-70 transition-all duration-300"></div>
             <Button 
               size="lg" 
               variant="hero" 
-              className="relative text-xl px-12 py-6 shadow-glow hover:shadow-glow-lg transition-all duration-500 transform hover:scale-105" 
+              className="relative text-xl px-16 py-8 shadow-glow hover:shadow-glow-lg transition-all duration-500 transform hover:scale-110 hover:-translate-y-1" 
               onClick={() => navigate('/app')}
             >
-              <span className="tracking-wide font-semibold">START YOUR JOURNEY</span>
-              <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Play className="mr-4 h-7 w-7 group-hover:scale-110 transition-transform animate-pulse-subtle" />
+              <span className="relative tracking-wide font-bold">START YOUR JOURNEY</span>
+              <ArrowRight className="ml-4 h-7 w-7 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" />
             </Button>
           </div>
           
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="text-xl px-12 py-6 backdrop-blur-md border-primary/30 hover:bg-primary/10 transition-all duration-300 tracking-wide"
-          >
-            EXPLORE PLATFORM
-          </Button>
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-accent rounded-full blur opacity-0 group-hover:opacity-40 transition-all duration-500"></div>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="relative text-xl px-16 py-8 backdrop-blur-md border-primary/40 hover:bg-primary/20 hover:border-primary/60 transition-all duration-500 tracking-wide transform hover:scale-105 group"
+            >
+              <Film className="mr-4 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
+              <span className="font-semibold">EXPLORE PLATFORM</span>
+            </Button>
+          </div>
         </div>
 
         {/* Cinematic Trust Indicators */}

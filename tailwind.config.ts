@@ -127,6 +127,14 @@ export default {
 				'spin-slow': {
 					'from': { transform: 'rotate(0deg)' },
 					'to': { transform: 'rotate(360deg)' },
+				},
+				'bounce-slow': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' },
+				},
+				'glow-pulse': {
+					'0%, 100%': { boxShadow: 'var(--shadow-glow)' },
+					'50%': { boxShadow: 'var(--shadow-glow-lg)' },
 				}
 			},
 			animation: {
@@ -139,7 +147,9 @@ export default {
 				'pulse-subtle': 'pulse-subtle 4s ease-in-out infinite',
 				'fade-in-delayed': 'fade-in 0.6s ease-out 0.3s both',
 				'shimmer': 'shimmer 3s ease-in-out infinite',
-				'spin-slow': 'spin-slow 8s linear infinite'
+				'spin-slow': 'spin-slow 8s linear infinite',
+				'bounce-slow': 'bounce-slow 3s ease-in-out infinite',
+				'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
 			}
 		}
 	},
