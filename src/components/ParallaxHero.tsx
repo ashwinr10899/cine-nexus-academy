@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Clapperboard, Camera, Popcorn, Film, Star, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import heroImage from '@/assets/hero-banner.jpg';
@@ -8,6 +8,16 @@ const ParallaxHero = () => {
   const navigate = useNavigate();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const filmIcons = [
+    { icon: Clapperboard, delay: '0.2s' },
+    { icon: Camera, delay: '0.4s' },
+    { icon: Popcorn, delay: '0.6s' },
+    { icon: Film, delay: '0.8s' },
+    { icon: Star, delay: '1.0s' },
+    { icon: Heart, delay: '1.2s' }
+  ];
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -20,15 +30,19 @@ const ParallaxHero = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
+    
+    // Trigger animations on load
+    const timer = setTimeout(() => setIsLoaded(true), 100);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
     };
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden film-reel-bg">
       {/* Parallax Background Layers */}
       <div className="absolute inset-0">
         {/* Main background image with parallax */}
@@ -91,54 +105,79 @@ const ParallaxHero = () => {
 
       {/* Minimalist Content */}
       <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
-        {/* Minimalist Badge */}
+        {/* Minimalist Badge with Animation */}
         <div className="mb-12">
-          <div className="inline-flex items-center px-6 py-2 rounded-full border border-border/30 bg-background/20 backdrop-blur-md">
+          <div className={`inline-flex items-center px-6 py-2 rounded-full border border-border/30 bg-background/20 backdrop-blur-md transition-all duration-1000 ${
+            isLoaded ? 'animate-scale-fade-in' : 'opacity-0 scale-75'
+          }`}>
             <span className="text-sm font-inter text-muted-foreground tracking-wide">
               Trusted by 10,000+ creators
             </span>
           </div>
         </div>
         
-        {/* Minimalist Main Title */}
-        <div className="mb-8">
-          <h1 className="font-playfair text-6xl md:text-8xl font-light text-foreground leading-tight tracking-tight">
-            <span className="block">Your</span>
+        {/* Cinematic Main Title with Projector Light */}
+        <div className="mb-8 projector-light">
+          <h1 className={`font-playfair text-6xl md:text-8xl font-light text-foreground leading-tight tracking-tight transition-all duration-1000 delay-300 ${
+            isLoaded ? 'animate-slide-in-left' : 'opacity-0 -translate-x-12'
+          }`}>
+            <span className="block">Discover, Learn</span>
             <span className="block font-medium bg-gradient-primary bg-clip-text text-transparent">
-              Cinematic
+              & Review
             </span>
             <span className="block text-4xl md:text-6xl font-light text-muted-foreground">
-              Experience
+              Films
             </span>
           </h1>
         </div>
         
+        {/* Film Icons Row */}
+        <div className="mb-8">
+          <div className="flex items-center justify-center gap-6 flex-wrap">
+            {filmIcons.map(({ icon: Icon, delay }, index) => (
+              <div
+                key={index}
+                className={`transition-all duration-600 ${
+                  isLoaded ? 'animate-icon-pop' : 'opacity-0 scale-0'
+                }`}
+                style={{ animationDelay: delay }}
+              >
+                <Icon className="h-6 w-6 text-primary/70 hover:text-primary transition-colors duration-300" />
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Minimalist Description */}
         <div className="mb-16">
-          <p className="font-inter text-xl md:text-2xl text-muted-foreground/80 font-light leading-relaxed max-w-2xl mx-auto">
-            Discover, learn, and create in the world of cinema
+          <p className={`font-inter text-xl md:text-2xl text-muted-foreground/80 font-light leading-relaxed max-w-2xl mx-auto transition-all duration-1000 delay-700 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}>
+            Experience cinema like never before with our immersive platform
           </p>
         </div>
 
-        {/* Minimalist Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+        {/* Cinematic Action Buttons */}
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-6 transition-all duration-1000 delay-1000 ${
+          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           <Button 
             size="lg" 
             variant="default" 
-            className="font-inter text-base px-8 py-3 transition-all duration-300 hover:scale-105" 
+            className="font-inter text-base px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-glow group" 
             onClick={() => navigate('/app')}
           >
-            <Play className="mr-2 h-4 w-4" />
-            Get Started
+            <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+            Start Your Journey
           </Button>
           
           <Button 
             size="lg" 
             variant="ghost" 
-            className="font-inter text-base px-8 py-3 transition-all duration-300 hover:bg-background/10"
+            className="font-inter text-base px-8 py-3 transition-all duration-300 hover:bg-background/10 hover:scale-105 group"
           >
-            Learn More
-            <ArrowRight className="ml-2 h-4 w-4" />
+            Explore Platform
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>

@@ -73,6 +73,10 @@
     /* Enhanced Shadows */
     --shadow-elegant: 0 20px 60px -10px hsl(220 13% 4% / 0.4);
     --shadow-glow-lg: 0 0 60px hsl(var(--primary-glow) / 0.6);
+    
+    /* Cinematic Animation Variables */
+    --film-flicker: 0 0 20px hsl(var(--primary) / 0.6), 0 0 40px hsl(var(--primary) / 0.4), 0 0 60px hsl(var(--primary) / 0.2);
+    --projector-glow: 0 0 80px hsl(var(--primary-glow) / 0.3), inset 0 0 40px hsl(var(--primary) / 0.1);
   }
 }
 
@@ -84,4 +88,61 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Cinematic Animation Classes */
+@layer components {
+  /* Film Projector Light Effect */
+  .projector-light {
+    position: relative;
+  }
+  
+  .projector-light::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: radial-gradient(ellipse at center, 
+      hsl(var(--primary) / 0.15) 0%, 
+      hsl(var(--primary) / 0.08) 30%, 
+      transparent 70%);
+    border-radius: 50%;
+    animation: film-flicker 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  /* Film Reel Background Animation */
+  .film-reel-bg {
+    background: linear-gradient(
+      45deg,
+      hsl(var(--background)),
+      hsl(220 13% 10%),
+      hsl(var(--background)),
+      hsl(220 13% 12%)
+    );
+    background-size: 400% 400%;
+    animation: film-reel-shift 8s ease-in-out infinite;
+  }
+  
+  /* Scroll Reveal Animation */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Sequential Reveal */
+  .seq-reveal-1 { transition-delay: 0.1s; }
+  .seq-reveal-2 { transition-delay: 0.2s; }
+  .seq-reveal-3 { transition-delay: 0.3s; }
+  .seq-reveal-4 { transition-delay: 0.4s; }
+  .seq-reveal-5 { transition-delay: 0.5s; }
 }

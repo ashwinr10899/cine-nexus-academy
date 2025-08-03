@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -8,16 +8,38 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthSection = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleAuth = () => {
     navigate('/app');
   };
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-background via-card/50 to-background">
+    <section ref={sectionRef} className="py-20 px-6 bg-gradient-to-br from-background via-card/50 to-background">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 scroll-reveal ${isVisible ? 'revealed' : ''}`}>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Join the <span className="bg-gradient-primary bg-clip-text text-transparent">Licon</span> Community
           </h2>
@@ -28,8 +50,8 @@ const AuthSection = () => {
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Auth Forms */}
-          <div className="order-2 md:order-1">
-            <Card className="p-8 bg-gradient-card border-border/50 backdrop-blur-sm shadow-elegant">
+          <div className={`order-2 md:order-1 scroll-reveal seq-reveal-2 ${isVisible ? 'revealed' : ''}`}>
+            <Card className="p-8 bg-gradient-card border-border/50 backdrop-blur-sm shadow-elegant hover:shadow-glow transition-all duration-500">
               <Tabs defaultValue="signup" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-8">
                   <TabsTrigger value="signup" className="text-lg py-3">Sign Up</TabsTrigger>
@@ -71,12 +93,12 @@ const AuthSection = () => {
                     </div>
                   </div>
                   <Button 
-                    className="w-full py-3 text-lg" 
+                    className="w-full py-3 text-lg hover:scale-[1.02] hover:shadow-glow transition-all duration-300 animate-glow-pulse" 
                     variant="hero"
                     onClick={handleAuth}
                   >
                     Create Account
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   <p className="text-sm text-muted-foreground text-center">
                     By signing up, you agree to our Terms & Privacy Policy
@@ -110,12 +132,12 @@ const AuthSection = () => {
                     </div>
                   </div>
                   <Button 
-                    className="w-full py-3 text-lg" 
+                    className="w-full py-3 text-lg hover:scale-[1.02] hover:shadow-glow transition-all duration-300 animate-glow-pulse group" 
                     variant="hero"
                     onClick={handleAuth}
                   >
                     Sign In
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   <div className="text-center">
                     <Button variant="link" className="text-primary hover:text-primary/80">
@@ -128,7 +150,7 @@ const AuthSection = () => {
           </div>
 
           {/* Visual Content */}
-          <div className="order-1 md:order-2 space-y-8">
+          <div className={`order-1 md:order-2 space-y-8 scroll-reveal seq-reveal-3 ${isVisible ? 'revealed' : ''}`}>
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-primary/20 rounded-2xl blur-3xl" />
               <Card className="relative p-8 bg-gradient-card border-border/50 backdrop-blur-sm">
