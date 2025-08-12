@@ -4,6 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Heart, MessageCircle, Share, Bookmark, MoreHorizontal, Star, TrendingUp } from 'lucide-react';
 import AdCard from '@/components/AdCard';
+import { PhotoGallery } from '@/components/ui/photo-gallery';
 
 const HomeFeed = () => {
   const posts = [
@@ -98,7 +99,7 @@ const HomeFeed = () => {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Left Sidebar - Trending & Quick Access */}
-          <div className="hidden lg:block space-y-6">
+          <div className="hidden lg:block space-y-6 sticky top-6 self-start">
             <Card className="bg-gradient-card border-border/50 p-4">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="h-5 w-5 text-primary" />
@@ -130,6 +131,11 @@ const HomeFeed = () => {
 
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Stories Section */}
+            <div className="bg-gradient-card border border-border/50 rounded-xl overflow-hidden">
+              <PhotoGallery animationDelay={0.2} />
+            </div>
+            
             {/* Banner Ad at top */}
             <AdCard {...ads[0]} />
 
@@ -249,7 +255,7 @@ const HomeFeed = () => {
           </div>
 
           {/* Right Sidebar - Suggestions & Activity */}
-          <div className="hidden lg:block space-y-6">
+          <div className="hidden lg:block space-y-6 sticky top-6 self-start">
             <Card className="bg-gradient-card border-border/50 p-4">
               <h3 className="font-semibold text-foreground mb-4">Suggested Connections</h3>
               <div className="space-y-4">

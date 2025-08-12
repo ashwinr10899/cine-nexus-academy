@@ -118,15 +118,15 @@ export const PhotoGallery = ({
   ];
 
   return (
-    <div className="mt-40 relative">
-       <div className="absolute inset-0 max-md:hidden top-[200px] -z-10 h-[300px] w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--muted))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted))_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
-      <p className="lg:text-md my-2 text-center text-xs font-light uppercase tracking-widest text-muted-foreground">
-        A Journey Through Visual Stories
+    <div className="py-8 relative">
+       <div className="absolute inset-0 max-md:hidden top-[100px] -z-10 h-[200px] w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--muted))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--muted))_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-10 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+      <p className="lg:text-sm my-2 text-center text-xs font-light uppercase tracking-widest text-muted-foreground">
+        Film Stories
       </p>
-      <h3 className="z-20 mx-auto max-w-2xl justify-center bg-gradient-primary bg-clip-text py-3 text-center text-4xl text-transparent md:text-7xl">
+      <h3 className="z-20 mx-auto max-w-2xl justify-center bg-gradient-primary bg-clip-text py-2 text-center text-2xl text-transparent md:text-4xl">
         Welcome to My <span className="text-primary"> Stories</span>
       </h3>
-      <div className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex">
+      <div className="relative mb-6 h-[280px] w-full items-center justify-center lg:flex">
         <motion.div
           className="relative mx-auto flex w-full max-w-7xl justify-center"
           initial={{ opacity: 0 }}
@@ -139,7 +139,7 @@ export const PhotoGallery = ({
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
           >
-            <div className="relative h-[220px] w-[220px]">
+            <div className="relative h-[180px] w-[180px]">
               {[...photos].reverse().map((photo, index) => (
                 <motion.div
                   key={photo.id}
@@ -161,8 +161,8 @@ export const PhotoGallery = ({
                   }}
                 >
                   <Photo
-                    width={220}
-                    height={220}
+                    width={180}
+                    height={180}
                     src={photo.src}
                     alt="Story photo"
                     direction={photo.direction}
