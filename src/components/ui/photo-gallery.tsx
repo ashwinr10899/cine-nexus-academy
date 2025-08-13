@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ImageZoom } from "@/components/ui/zoomable-image";
 
 export const PhotoGallery = ({
   animationDelay = 0.5,
@@ -120,7 +121,7 @@ export const PhotoGallery = ({
 const SimplePhoto = ({ src, alt }: { src: string; alt: string }) => {
   return (
     <motion.div
-      className="relative h-[120px] w-[120px] cursor-pointer"
+      className="relative h-[120px] w-[120px]"
       whileHover={{ 
         scale: 1.05, 
         zIndex: 999,
@@ -132,10 +133,12 @@ const SimplePhoto = ({ src, alt }: { src: string; alt: string }) => {
       }}
     >
       <div className="relative h-full w-full overflow-hidden rounded-xl shadow-md border border-border/20 bg-muted">
-        <img
-          className="w-full h-full object-cover"
+        <ImageZoom
           src={src}
           alt={alt}
+          width={120}
+          height={120}
+          className="w-full h-full object-cover"
           loading="lazy"
           draggable={false}
         />
