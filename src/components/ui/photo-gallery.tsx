@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ImageZoom } from "@/components/ui/zoomable-image";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { StoryViewer } from "@/components/ui/story-viewer";
 
 export const PhotoGallery = ({
   animationDelay = 0.5,
@@ -11,6 +12,8 @@ export const PhotoGallery = ({
   animationDelay?: number;
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [selectedStoryId, setSelectedStoryId] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,49 +23,74 @@ export const PhotoGallery = ({
     return () => clearTimeout(timer);
   }, [animationDelay]);
 
-  // Simplified photo positions - smaller, optimized layout
-  const photos = [
+  // Mock story data with user information
+  const stories = [
     {
-      id: 1,
+      id: "1",
       x: "-100px",
       y: "8px",
       zIndex: 50,
       rotation: -2,
       src: "https://images.pexels.com/photos/32025694/pexels-photo-32025694/free-photo-of-romantic-wedding-in-ancient-ruins.jpeg",
+      userId: "user1",
+      userName: "Emma Wilson",
+      userAvatar: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400",
+      timestamp: "2h ago"
     },
     {
-      id: 2,
+      id: "2",
       x: "-50px",
       y: "15px",
       zIndex: 40,
       rotation: 1,
       src: "https://images.pexels.com/photos/31596551/pexels-photo-31596551/free-photo-of-winter-scene-with-lake-view-in-van-turkiye.jpeg",
+      userId: "user2",
+      userName: "Alex Chen",
+      userAvatar: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400",
+      timestamp: "4h ago"
     },
     {
-      id: 3,
+      id: "3",
       x: "0px",
       y: "5px",
       zIndex: 30,
       rotation: 0,
       src: "https://images.pexels.com/photos/31890053/pexels-photo-31890053/free-photo-of-moody-portrait-with-heart-shaped-light.jpeg",
+      userId: "user1",
+      userName: "Emma Wilson",
+      userAvatar: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400",
+      timestamp: "1h ago"
     },
     {
-      id: 4,
+      id: "4",
       x: "50px",
       y: "12px",
       zIndex: 20,
       rotation: -1,
       src: "https://images.pexels.com/photos/19936068/pexels-photo-19936068/free-photo-of-women-sitting-on-hilltop-with-clouds-below.jpeg",
+      userId: "user3",
+      userName: "Maya Patel",
+      userAvatar: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=400",
+      timestamp: "6h ago"
     },
     {
-      id: 5,
+      id: "5",
       x: "100px",
       y: "18px",
       zIndex: 10,
       rotation: 2,
       src: "https://images.pexels.com/photos/20494995/pexels-photo-20494995/free-photo-of-head-of-peacock.jpeg",
+      userId: "user2",
+      userName: "Alex Chen",
+      userAvatar: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400",
+      timestamp: "3h ago"
     },
   ];
+
+  const handleStoryClick = (storyId: string) => {
+    setSelectedStoryId(storyId);
+    setViewerOpen(true);
+  };
 
   return (
     <div className="py-4 relative">
@@ -72,11 +100,11 @@ export const PhotoGallery = ({
       
       <div className="relative mb-4 h-[160px] w-full flex items-center justify-center">
         <div className="relative h-[120px] w-[120px]">
-          {photos.map((photo, index) => (
+          {stories.map((story, index) => (
             <motion.div
-              key={photo.id}
+              key={story.id}
               className="absolute left-0 top-0"
-              style={{ zIndex: photo.zIndex }}
+              style={{ zIndex: story.zIndex }}
               initial={{ 
                 x: 0, 
                 y: 0, 
@@ -85,9 +113,9 @@ export const PhotoGallery = ({
                 opacity: 0
               }}
               animate={isLoaded ? { 
-                x: photo.x, 
-                y: photo.y, 
-                rotate: photo.rotation, 
+                x: story.x, 
+                y: story.y, 
+                rotate: story.rotation, 
                 scale: 1,
                 opacity: 1
               } : {}}
@@ -99,14 +127,21 @@ export const PhotoGallery = ({
                 duration: 0.6
               }}
             >
-              <SimplePhoto
-                src={photo.src}
-                alt="Story"
+              <StoryPhoto
+                story={story}
+                onClick={() => handleStoryClick(story.id)}
               />
             </motion.div>
           ))}
         </div>
       </div>
+      
+      <StoryViewer
+        stories={stories}
+        initialStoryId={selectedStoryId}
+        isOpen={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+      />
       
       <div className="flex w-full justify-center">
         <Button variant="ghost" size="sm" className="text-sm">
@@ -117,11 +152,14 @@ export const PhotoGallery = ({
   );
 };
 
-// Lightweight photo component optimized for performance
-const SimplePhoto = ({ src, alt }: { src: string; alt: string }) => {
+// Story photo component with user avatar
+const StoryPhoto = ({ story, onClick }: { 
+  story: any; 
+  onClick: () => void; 
+}) => {
   return (
     <motion.div
-      className="relative h-[120px] w-[120px]"
+      className="relative h-[120px] w-[120px] cursor-pointer"
       whileHover={{ 
         scale: 1.05, 
         zIndex: 999,
@@ -131,17 +169,27 @@ const SimplePhoto = ({ src, alt }: { src: string; alt: string }) => {
         scale: 0.95,
         transition: { duration: 0.1 }
       }}
+      onClick={onClick}
     >
       <div className="relative h-full w-full overflow-hidden rounded-xl shadow-md border border-border/20 bg-muted">
-        <ImageZoom
-          src={src}
-          alt={alt}
-          width={120}
-          height={120}
+        <img
+          src={story.src}
+          alt={`Story by ${story.userName}`}
           className="w-full h-full object-cover"
           loading="lazy"
           draggable={false}
         />
+        
+        {/* User avatar indicator */}
+        <div className="absolute top-2 left-2">
+          <Avatar className="w-8 h-8 border-2 border-white shadow-md">
+            <AvatarImage src={story.userAvatar} />
+            <AvatarFallback className="text-xs">{story.userName[0]}</AvatarFallback>
+          </Avatar>
+        </div>
+        
+        {/* Gradient overlay for better avatar visibility */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-transparent" />
       </div>
     </motion.div>
   );
