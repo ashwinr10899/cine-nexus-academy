@@ -98,8 +98,12 @@ export const PhotoGallery = ({
       <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:8px_8px]" />
       <div className="absolute inset-0 opacity-20 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_25%,rgba(255,255,255,0.05)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.05)_75%)] bg-[length:16px_16px]" />
       
-      {/* Content wrapper with backdrop blur */}
-      <div className="relative backdrop-blur-[0.5px]">
+      {/* Glass container */}
+      <div className="mx-6 relative backdrop-blur-md bg-background/20 border border-white/10 rounded-2xl shadow-2xl shadow-black/10">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-2xl" />
+        
+        {/* Content wrapper */}
+        <div className="relative p-6">
       <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">
         Film Stories
       </p>
@@ -148,11 +152,12 @@ export const PhotoGallery = ({
         isOpen={viewerOpen}
         onClose={() => setViewerOpen(false)}
       />
-      
-        <div className="flex w-full justify-center">
-          <Button variant="ghost" size="sm" className="text-sm backdrop-blur-sm bg-background/50 hover:bg-background/70 border border-border/50">
-            View All Stories
-          </Button>
+        
+          <div className="flex w-full justify-center">
+            <Button variant="ghost" size="sm" className="text-sm backdrop-blur-md bg-background/30 hover:bg-background/50 border border-white/20 shadow-lg">
+              View All Stories
+            </Button>
+          </div>
         </div>
       </div>
     </div>
