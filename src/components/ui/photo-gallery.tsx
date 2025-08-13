@@ -93,7 +93,13 @@ export const PhotoGallery = ({
   };
 
   return (
-    <div className="py-4 relative">
+    <div className="py-8 relative bg-gradient-to-br from-background via-muted/30 to-background overflow-hidden">
+      {/* Noise texture overlay */}
+      <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:8px_8px]" />
+      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_25%,rgba(255,255,255,0.05)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.05)_75%)] bg-[length:16px_16px]" />
+      
+      {/* Content wrapper with backdrop blur */}
+      <div className="relative backdrop-blur-[0.5px]">
       <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">
         Film Stories
       </p>
@@ -143,10 +149,11 @@ export const PhotoGallery = ({
         onClose={() => setViewerOpen(false)}
       />
       
-      <div className="flex w-full justify-center">
-        <Button variant="ghost" size="sm" className="text-sm">
-          View All Stories
-        </Button>
+        <div className="flex w-full justify-center">
+          <Button variant="ghost" size="sm" className="text-sm backdrop-blur-sm bg-background/50 hover:bg-background/70 border border-border/50">
+            View All Stories
+          </Button>
+        </div>
       </div>
     </div>
   );
