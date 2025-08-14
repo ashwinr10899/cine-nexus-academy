@@ -91,7 +91,7 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-md w-full max-h-[90vh] bg-black rounded-xl overflow-hidden flex flex-col"
+              className="relative w-full max-w-4xl max-h-[95vh] bg-black rounded-xl overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
             {/* Progress bars */}
