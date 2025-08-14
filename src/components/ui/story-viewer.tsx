@@ -145,11 +145,15 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
             </div>
 
             {/* Story Image */}
-            <div className="flex-1 flex items-center justify-center p-4 pt-20">
+            <div className="flex-1 flex items-center justify-center p-4 pt-20 pb-4">
               <img
                 src={currentStory.src}
                 alt={`Story by ${currentStory.userName}`}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-full max-h-full w-auto h-auto object-contain"
+                style={{ 
+                  maxHeight: 'calc(100vh - 8rem)',
+                  maxWidth: 'calc(100vw - 2rem)'
+                }}
               />
             </div>
 
