@@ -87,13 +87,13 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            className="relative max-w-md w-full h-[80vh] bg-black rounded-xl overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-md w-full max-h-[90vh] bg-black rounded-xl overflow-hidden flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
             {/* Progress bars */}
             <div className="absolute top-4 left-4 right-4 flex gap-1 z-10">
               {userStories.map((_, index) => (
@@ -127,11 +127,13 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
             </div>
 
             {/* Story Image */}
-            <img
-              src={currentStory.src}
-              alt={`Story by ${currentStory.userName}`}
-              className="w-full h-full object-cover"
-            />
+            <div className="flex-1 flex items-center justify-center min-h-0">
+              <img
+                src={currentStory.src}
+                alt={`Story by ${currentStory.userName}`}
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
 
             {/* Navigation */}
             <div className="absolute inset-0 flex">
