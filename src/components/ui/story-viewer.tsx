@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -84,16 +85,16 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
           onClick={onClose}
         >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative w-full max-w-4xl max-h-[95vh] bg-black rounded-xl overflow-hidden flex flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="relative w-full h-full bg-black flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Progress bars */}
             <div className="absolute top-4 left-4 right-4 flex gap-1 z-10">
               {userStories.map((_, index) => (
@@ -127,7 +128,7 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
             </div>
 
             {/* Story Image */}
-            <div className="flex-1 flex items-center justify-center min-h-0">
+            <div className="flex-1 flex items-center justify-center p-4 pt-20">
               <img
                 src={currentStory.src}
                 alt={`Story by ${currentStory.userName}`}
