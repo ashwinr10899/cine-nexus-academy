@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -78,23 +79,39 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
 
   if (!isOpen || !currentStory) return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
-          onClick={onClose}
-        >
+        <>
+          {/* Backdrop blur overlay */}
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            className="relative w-full h-full bg-black flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9998] backdrop-blur-md bg-black/50"
+          />
+          
+          {/* Story viewer */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.3 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.3 }}
+            transition={{ 
+              type: "spring", 
+              damping: 25, 
+              stiffness: 300,
+              duration: 0.3 
+            }}
+            className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+            onClick={onClose}
           >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative w-full h-full bg-black flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
             {/* Progress bars */}
             <div className="absolute top-4 left-4 right-4 flex gap-1 z-10">
               {userStories.map((_, index) => (
@@ -172,9 +189,11 @@ export const StoryViewer = ({ stories, initialStoryId, isOpen, onClose }: StoryV
                 <ChevronRight className="h-5 w-5" />
               </Button>
             )}
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
