@@ -10,6 +10,14 @@ const AuthSection = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
+
+  const handleQuickAccess = () => {
+    navigate('/app');
+  };
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
