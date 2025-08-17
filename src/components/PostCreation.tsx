@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ImagePlus, Video, Hash, Film, X } from 'lucide-react';
+import { usePosts } from '@/hooks/usePosts';
+import { useProfile } from '@/hooks/useProfile';
 
 const PostCreation = () => {
   const [content, setContent] = useState('');
@@ -15,11 +17,16 @@ const PostCreation = () => {
   const [currentTag, setCurrentTag] = useState('');
   const [relatedFilm, setRelatedFilm] = useState('');
   const [promotePost, setPromotePost] = useState(false);
-  const [postType, setPostType] = useState('general');
+  const [postType, setPostType] = useState('regular');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { createPost } = usePosts();
+  const { profile } = useProfile();
 
   const handleAddTag = () => {
     if (currentTag && !tags.includes(currentTag)) {
-      setTags([...tags, currentTag]);
+      const tagWithHash = currentTag.startsWith('#') ? currentTag : `#${currentTag}`;
+      setTags([...tags, tagWithHash]);
       setCurrentTag('');
     }
   };
@@ -35,19 +42,45 @@ const PostCreation = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!content.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      await createPost(
+        content,
+        promotePost ? 'promotion' : postType,
+        tags,
+        relatedFilm || undefined
+      );
+
+      // Reset form
+      setContent('');
+      setTags([]);
+      setCurrentTag('');
+      setRelatedFilm('');
+      setPromotePost(false);
+      setPostType('regular');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <Card className="bg-gradient-card border-border">
         {/* Header */}
         <div className="flex items-center gap-3 p-6 border-b border-border">
           <Avatar>
-            <AvatarImage src="" />
+            <AvatarImage src={profile?.avatar_url || ''} />
             <AvatarFallback className="bg-primary text-primary-foreground">
-              YU
+              {(profile?.display_name || profile?.username)?.charAt(0).toUpperCase() || 'U'}
             </AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-semibold text-foreground">Your Name</div>
+            <div className="font-semibold text-foreground">
+              {profile?.display_name || profile?.username || 'Your Name'}
+            </div>
             <div className="text-sm text-muted-foreground">Create a new post</div>
           </div>
         </div>
@@ -62,11 +95,9 @@ const PostCreation = () => {
                 <SelectValue placeholder="Select post type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="general">General Post</SelectItem>
-                <SelectItem value="review">Film Review</SelectItem>
-                <SelectItem value="forum">Forum Discussion</SelectItem>
-                <SelectItem value="course">Course Share</SelectItem>
-                <SelectItem value="behind-scenes">Behind the Scenes</SelectItem>
+                <SelectItem value="regular">General Post</SelectItem>
+                <SelectItem value="discussion">Discussion</SelectItem>
+                <SelectItem value="promotion">Promotion</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -80,22 +111,24 @@ const PostCreation = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="min-h-32 resize-none"
+              maxLength={500}
             />
           </div>
 
-          {/* Media Upload */}
+          {/* Media Upload - Placeholder for future implementation */}
           <div className="space-y-2">
             <Label>Add Media</Label>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" disabled>
                 <ImagePlus className="h-4 w-4 mr-2" />
                 Add Photo
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" disabled>
                 <Video className="h-4 w-4 mr-2" />
                 Add Video
               </Button>
             </div>
+            <p className="text-xs text-muted-foreground">Media upload coming soon</p>
           </div>
 
           {/* Tags */}
@@ -103,13 +136,13 @@ const PostCreation = () => {
             <Label>Tags</Label>
             <div className="flex gap-2 mb-2">
               <Input
-                placeholder="Add tag (e.g., #cinematography)"
+                placeholder="Add tag (e.g., cinematography)"
                 value={currentTag}
                 onChange={(e) => setCurrentTag(e.target.value)}
                 onKeyPress={handleKeyPress}
                 className="flex-1"
               />
-              <Button onClick={handleAddTag} size="sm">
+              <Button onClick={handleAddTag} size="sm" disabled={!currentTag.trim()}>
                 <Hash className="h-4 w-4" />
               </Button>
             </div>
@@ -166,11 +199,17 @@ const PostCreation = () => {
             {content.length}/500 characters
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">
+            <Button 
+              variant="outline"
+              disabled={!content.trim() || isSubmitting}
+            >
               Save Draft
             </Button>
-            <Button disabled={!content.trim()}>
-              Post
+            <Button 
+              disabled={!content.trim() || isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? 'Posting...' : 'Post'}
             </Button>
           </div>
         </div>
