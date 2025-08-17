@@ -34,7 +34,7 @@ export const usePosts = () => {
         .from('posts')
         .select(`
           *,
-          profiles(username, display_name, avatar_url)
+          profiles!inner(username, display_name, avatar_url)
         `)
         .order('created_at', { ascending: false });
 
@@ -58,17 +58,19 @@ export const usePosts = () => {
           post_type: (post.post_type as 'regular' | 'promotion' | 'discussion') || 'regular',
           likes_count: post.likes_count || 0,
           comments_count: post.comments_count || 0,
-          user_has_liked: likedPostIds.has(post.id)
-        }));
+          user_has_liked: likedPostIds.has(post.id),
+          profiles: Array.isArray(post.profiles) ? post.profiles[0] : post.profiles
+        })) as Post[];
 
         setPosts(postsWithLikes);
-      } else {
-        const processedPosts = (data || []).map(post => ({
+      } else if (data) {
+        const processedPosts = data.map(post => ({
           ...post,
           post_type: (post.post_type as 'regular' | 'promotion' | 'discussion') || 'regular',
           likes_count: post.likes_count || 0,
-          comments_count: post.comments_count || 0
-        }));
+          comments_count: post.comments_count || 0,
+          profiles: Array.isArray(post.profiles) ? post.profiles[0] : post.profiles
+        })) as Post[];
         setPosts(processedPosts);
       }
     } catch (error: any) {

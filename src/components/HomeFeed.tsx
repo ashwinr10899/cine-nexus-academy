@@ -26,22 +26,24 @@ const HomeFeed = () => {
   const bannerAds = [
     {
       id: 1,
+      type: "banner" as const,
       title: "New Film Equipment Sale",
       description: "Up to 50% off professional cameras and lenses",
       image: "/placeholder.svg",
       ctaText: "Shop Now",
-      link: "#"
+      sponsor: "FilmGear Pro"
     }
   ];
 
   const sidebarAds = [
     {
       id: 1,
+      type: "sidebar" as const,
       title: "Masterclass: Cinematography",
       description: "Learn from award-winning directors",
       image: "/placeholder.svg",
       ctaText: "Enroll",
-      link: "#"
+      sponsor: "MasterClass"
     }
   ];
 
@@ -78,7 +80,7 @@ const HomeFeed = () => {
             {/* Stories Section */}
             <Card className="bg-gradient-card border-border p-4">
               <h2 className="text-lg font-semibold text-foreground mb-4">Stories</h2>
-              <PhotoGallery images={stories} />
+              <PhotoGallery />
             </Card>
 
             {/* Banner Ads */}
